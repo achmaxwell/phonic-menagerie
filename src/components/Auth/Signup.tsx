@@ -62,13 +62,15 @@ class Signup extends Component <SignupProps, SignupState> {
         <div>
 
             <TextField
-                id="standard-password-input"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({email: (e.target.value)})}}
+                id="standard-email-input"
                 label="Email"
                 type="username"
                 autoComplete="current-email"
                 variant="standard"
             />
             <TextField
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({password: (e.target.value)})}}
                 id="standard-password-input"
                 label="Password"
                 type="password"
