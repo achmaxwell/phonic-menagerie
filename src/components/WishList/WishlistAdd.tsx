@@ -1,34 +1,36 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-interface AddCollectionProps {
+interface AddWishlistProps {
     token?: string,
-    fetchCollection(collectionData:[]): void
+    fetchWishlist(wishlistData:[]): void
 }
 
-interface AddCollectionState {
+interface AddWishlistState {
     artist: string,
     album: string,
     format: string,
     cat: string
+    price: string
 }
 
-class CollectionAdd extends Component <AddCollectionProps,AddCollectionState> {
-    constructor(props: AddCollectionProps) {
+class WishlistAdd extends Component <AddWishlistProps,AddWishlistState> {
+    constructor(props: AddWishlistProps) {
         super(props)
         this.state = {
             artist: '',
             album: '',
             format: '',
-            cat: ''
+            cat: '',
+            price: ''
         }
     }
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        fetch('http://localhost:3000/collection/add/', {
+        fetch('http://localhost:3000/wishList/add/', {
             method: 'POST',
-            body: JSON.stringify({ collection: {artist: '', album: '', format: '', cat: ''} }),
+            body: JSON.stringify({ wishlist: {artist: '', album: '', format: '', cat: '', price: ''} }),
             headers: new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.props.token}`
@@ -43,7 +45,8 @@ class CollectionAdd extends Component <AddCollectionProps,AddCollectionState> {
                                 { album: res.album,
                                 artist: res.artist,
                                 format: res.format,
-                                cat: res.cat
+                                cat: res.cat,
+                                price: res.price
                         }
                         }),
                     headers: new Headers({
@@ -52,22 +55,23 @@ class CollectionAdd extends Component <AddCollectionProps,AddCollectionState> {
                     })
                 })
                     .then(() => {
-                        this.props.fetchCollection([]);
+                        this.props.fetchWishlist([]);
                     })
             })
-            .then((collectionData) => {
-                console.log(collectionData);
+            .then((wishlistData) => {
+                console.log(wishlistData);
                 this.setState({artist:('')});
                 this.setState({album:('')});
                 this.setState({format:('')});
                 this.setState({cat:('')});
-                this.props.fetchCollection([]);
+                this.setState({price:('')});
+                this.props.fetchWishlist([]);
             })
     }
     render() {
     return (
         <>
-            <h4 className="signupHeader">add a record</h4>
+            <h4 className="signupHeader">record a plant note</h4>
             <Form className="form" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <Input name="artist" value={this.state.artist} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({artist: (e.target.value)})}} placeholder="artist" />
@@ -81,6 +85,9 @@ class CollectionAdd extends Component <AddCollectionProps,AddCollectionState> {
                 <FormGroup>
                     <Input name="cat" value={this.state.cat} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({cat: (e.target.value)})}} placeholder="album" />
                 </FormGroup>
+                <FormGroup>
+                    <Input name="price" value={this.state.price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({price: (e.target.value)})}} placeholder="album" />
+                </FormGroup>
                 <br />
             </Form>
         </>
@@ -88,4 +95,4 @@ class CollectionAdd extends Component <AddCollectionProps,AddCollectionState> {
 }
 }
 
-export default CollectionAdd;
+export default WishlistAdd;

@@ -1,43 +1,46 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-interface collectionEditProps {
+interface wishlistEditProps {
     token: string
-    fetchCollection: () => void
+    fetchWishlist: () => void
     updateOff(): void
-    collectionUpdate: any
+    wishlistUpdate: any
 } 
 
-interface collectionEditState {
+interface wishlistEditState {
         artist: string,
         album: string,
         format: string,
-        cat: string
-}
+        cat: string,
+        price: string
+    
+  }
 
-class CollectionEdit extends Component <collectionEditProps,collectionEditState> {
-    constructor(props: collectionEditProps){
+class WishlistEdit extends Component <wishlistEditProps,wishlistEditState> {
+    constructor(props: wishlistEditProps){
         super(props)
         this.state = {
             artist: '',
             album: '',
             format: '',
             cat: '',
+            price: ''
         }
     }
 
-    collectionUpdate = (event: any) => {
+    wishlistUpdate = (event: any) => {
         event.preventDefault();
-        fetch(`http://localhost:3000/collection/update/${this.props.collectionUpdate.id}`, {
+        fetch(`http://localhost:3000/wishList/update/${this.props.wishlistUpdate.id}`, {
             method: 'PUT',
-            body: JSON.stringify({collection: {artist: '', album: '', format: '', cat: ''}}),
+            body: JSON.stringify({wishlist: {artist: '', album: '', format: '', cat: '', price: ''}}),
             headers: new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.props.token}`
             })
         })
         .then((res) => {
-            this.props.fetchCollection();
+            this.props.fetchWishlist();
             this.props.updateOff();
         })
     }
@@ -45,10 +48,10 @@ class CollectionEdit extends Component <collectionEditProps,collectionEditState>
     render(){
     return(
         <div>
-            <Form onSubmit={this.collectionUpdate}>
+            <Form onSubmit={this.wishlistUpdate}>
                 <FormGroup>
-                    <Label htmlFor="collection" className="noteHeaderText">edit your records</Label>
-                    <Input name="yourCollection" value={this.state.artist} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({artist: (e.target.value)})}} placeholder="edit artist name" className="formInputName"/>
+                    <Label htmlFor="wishlist" className="noteHeaderText">edit your wishlist</Label>
+                    <Input name="yourWishlist" value={this.state.artist} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({artist: (e.target.value)})}} placeholder="edit artist name" className="formInputName"/>
                 </FormGroup>
                 <FormGroup>
                     
@@ -62,4 +65,4 @@ class CollectionEdit extends Component <collectionEditProps,collectionEditState>
 }
 }
 
-export default CollectionEdit;
+export default WishlistEdit;
