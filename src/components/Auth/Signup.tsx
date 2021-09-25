@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import TextField from '@mui/material/TextField';
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 interface SignupProps {
     token?: string,
@@ -61,14 +62,17 @@ class Signup extends Component <SignupProps, SignupState> {
     return (
         <div>
 
+        <FormControl onSubmit={this.handleSubmit}>
             <TextField
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({email: (e.target.value)})}}
-                id="standard-email-input"
+                id="standard-password-input"
                 label="Email"
                 type="username"
                 autoComplete="current-email"
                 variant="standard"
+                required
             />
+            <br/>
             <TextField
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({password: (e.target.value)})}}
                 id="standard-password-input"
@@ -76,7 +80,26 @@ class Signup extends Component <SignupProps, SignupState> {
                 type="password"
                 autoComplete="current-password"
                 variant="standard"
+                required
             />
+            <br/>
+            {/* <FormLabel component="legend">Are you an Administrator?</FormLabel>
+            <FormGroup check>
+            <Label check>
+                <Input type="checkbox" id="checkbox2" checked={this.state.isAdmin} onChange={this.handleChange}/>{' '}
+                Are you an admin?
+            </Label>
+            </FormGroup> */}
+            <div>
+            <Button 
+            type="submit"
+            sx={{
+                color: 'white',
+                background: '#a1936d',
+            }}>Register</Button>
+            <Button type="submit" className="logBtn">Login</Button>
+            </div>
+            </FormControl>
 
         </div>
     );

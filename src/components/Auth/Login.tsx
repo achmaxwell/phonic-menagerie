@@ -5,6 +5,7 @@ import logo from "./assets/pm-logo.png"
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 interface LoginProps {
     updateToken(token: string): void
@@ -39,12 +40,16 @@ class Login extends Component <LoginProps, LoginState> {
         }
     }
 
+    // handleChange = async (e: any) => this.setState({ isAdmin: e.target.checked })
+
     handleSubmit = async (event : any) => {
         event.preventDefault();
         const apiURL = `http://localhost:3000/user/login`
         const reqBody = {
+            user: {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            }
         }
         try {
         const res = await fetch(apiURL, {
@@ -54,11 +59,17 @@ class Login extends Component <LoginProps, LoginState> {
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
-        }).then(
-            (response) => response.json()
-        ).then((data) => {
-            this.props.updateToken(data.token)
         })
+        // .then(
+        //     (response) => res.json()
+        // ).then((data) => {
+        //     this.props.updateToken(data.token)
+        // })
+
+        const json = await res.json();
+            const token = json.sessionToken
+            this.props.updateToken(token);
+
     } catch (e) {
         console.log(e)
     }
@@ -72,11 +83,13 @@ class Login extends Component <LoginProps, LoginState> {
                 margin: "auto",
                 marginTop: "3em",
                 padding: "2em",
-                width: 300,
+                width: 500,
                 height: "auto",
-                bgcolor: '#b8b0a0',
+                bgcolor: 'whitesmoke',
             }}>
+                <b>Welcome to</b>
                 <img src={logo} alt="Phonic Menagerie" className="logoImgLogin"/>
+                <p>Your personal album collection in the palm of your hand! Keep track of your record collection and add albums to your wishlist. Ensures you don't buy the same record twice!</p>
             <FormControl onSubmit={this.handleSubmit}>
             <TextField
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {this.setState({email: (e.target.value)})}}
@@ -98,12 +111,13 @@ class Login extends Component <LoginProps, LoginState> {
                 required
             />
             <br/>
-            <FormLabel component="legend">Are you an Administrator?</FormLabel>
-            <RadioGroup row aria-label="isAdmin" name="row-radio-buttons-group">
-            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="no" control={<Radio />} label="No" />
-            </RadioGroup>
-            </FormControl>
+            {/* <FormLabel component="legend">Are you an Administrator?</FormLabel>
+            <FormGroup check>
+            <Label check>
+                <Input type="checkbox" id="checkbox2" checked={this.state.isAdmin} onChange={this.handleChange}/>{' '}
+                Are you an admin?
+            </Label>
+            </FormGroup> */}
             <div>
             <Button 
             type="submit"
@@ -111,8 +125,9 @@ class Login extends Component <LoginProps, LoginState> {
                 color: 'white',
                 background: '#a1936d',
             }}>Register</Button>
-            <Button className="logBtn">Login</Button>
+            <Button type="submit" className="logBtn">Login</Button>
             </div>
+            </FormControl>
             </Box>
             
         </div>
