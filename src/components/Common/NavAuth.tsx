@@ -5,19 +5,20 @@ import {
     Nav,
     NavItem,
     NavLink,
-    NavbarText
+    Button
 } from 'reactstrap';
 
 interface NavProps {
     token?: string
-    clickLogout(): void
+    clickLogout: () => void
+    updateToken(token: string): void
 }
 
 interface NavState {
     isOpen: boolean
 }
 
-class NavMain extends Component <NavProps,NavState> {
+class NavAuth extends Component <NavProps,NavState> {
     constructor(props: NavProps) {
         super (props)
         this.state= {
@@ -29,20 +30,20 @@ render() {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <NavbarBrand href="/">Phonic Menagerie</NavbarBrand>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink href="../Auth/Login">Login</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              <NavLink href="../Auth/Signup">Register</NavLink>
             </NavItem>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+          <Button onClick={this.props.clickLogout}>Logout</Button>
       </Navbar>
     </div>
   );
 }
 }
 
-export default NavMain;
+export default NavAuth;

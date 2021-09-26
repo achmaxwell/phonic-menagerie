@@ -7,7 +7,11 @@ import Box from '@mui/material/Box';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import { Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
+import NavAuth from '../Common/NavAuth'
+
 interface LoginProps {
+    updateToken(token: string): void
+    clickLogout: () => void
     updateToken(token: string): void
 }
 interface LoginState {
@@ -78,6 +82,7 @@ class Login extends Component <LoginProps, LoginState> {
     
         return(
         <div className="bgDiv">
+            <NavAuth updateToken={this.props.updateToken} clickLogout={this.props.clickLogout} />
             <Box
             sx={{
                 margin: "auto",
@@ -119,12 +124,12 @@ class Login extends Component <LoginProps, LoginState> {
             </Label>
             </FormGroup> */}
             <div>
-            <Button 
+            {/* <Button 
             type="submit"
             sx={{
                 color: 'white',
                 background: '#a1936d',
-            }}>Register</Button>
+            }}>Register</Button> */}
             <Button type="submit" className="logBtn">Login</Button>
             </div>
             </FormControl>
